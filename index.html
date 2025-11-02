@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>v1nny_zx | Links</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Courier New', monospace;
+            background: #0a0a0a;
+            color: #00ff00;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Efeito Matrix de fundo */
+        #matrix-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.1;
+            z-index: 0;
+        }
+
+        .container {
+            max-width: 500px;
+            width: 100%;
+            position: relative;
+            z-index: 1;
+        }
+
+        .terminal-window {
+            background: rgba(0, 0, 0, 0.85);
+            border: 2px solid #00ff00;
+            border-radius: 8px;
+            box-shadow: 0 0 30px rgba(0, 255, 0, 0.3);
+            padding: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .terminal-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #00ff00;
+        }
+
+        .terminal-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #ff5555;
+        }
+
+        .terminal-dot:nth-child(2) {
+            background: #ffff55;
+        }
+
+        .terminal-dot:nth-child(3) {
+            background: #00ff00;
+        }
+
+        .username {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .username h1 {
+            font-size: 28px;
+            color: #00ff00;
+            text-shadow: 0 0 10px #00ff00;
+            animation: glitch 3s infinite;
+        }
+
+        .username p {
+            color: #00ff00;
+            opacity: 0.7;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        @keyframes glitch {
+            0%, 90%, 100% {
+                transform: translate(0);
+            }
+            92% {
+                transform: translate(-2px, 2px);
+            }
+            94% {
+                transform: translate(2px, -2px);
+            }
+            96% {
+                transform: translate(-2px, -2px);
+            }
+        }
+
+        .typing {
+            color: #00ff00;
+            font-size: 14px;
+            margin-bottom: 20px;
+            opacity: 0.8;
+        }
+
+        .typing::after {
+            content: '_';
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+
+        .links {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .link-btn {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 18px 25px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 2px solid #00ff00;
+            border-radius: 6px;
+            text-decoration: none;
+            color: #00ff00;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .link-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 0, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .link-btn:hover::before {
+            left: 100%;
+        }
+
+        .link-btn:hover {
+            background: rgba(0, 255, 0, 0.1);
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.5);
+            transform: translateX(5px);
+        }
+
+        .link-icon {
+            font-size: 24px;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #00ff00;
+            opacity: 0.5;
+            font-size: 12px;
+        }
+
+        /* Efeito de scan */
+        .scan-line {
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background: rgba(0, 255, 0, 0.3);
+            animation: scan 4s linear infinite;
+        }
+
+        @keyframes scan {
+            0% { top: 0; }
+            100% { top: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="matrix-bg"></canvas>
+    
+    <div class="container">
+        <div class="terminal-window">
+            <div class="scan-line"></div>
+            
+            <div class="terminal-header">
+                <div class="terminal-dot"></div>
+                <div class="terminal-dot"></div>
+                <div class="terminal-dot"></div>
+            </div>
+
+            <div class="username">
+                <h1>&gt; v1nny_zx</h1>
+                <p>[ ACCESS GRANTED ]</p>
+            </div>
+
+            <div class="typing">
+                $ loading social links...
+            </div>
+
+            <div class="links">
+                <a href="https://instagram.com/v1nny_zx" target="_blank" class="link-btn">
+                    <span class="link-icon">📸</span>
+                    <span>Instagram</span>
+                </a>
+
+                <a href="#" target="_blank" class="link-btn" style="opacity: 0.5; pointer-events: none;">
+                    <span class="link-icon">🎮</span>
+                    <span>Discord - <span class="glitch-text" data-text="Em breve"></span></span>
+                </a>
+
+                <a href="#" target="_blank" class="link-btn" style="opacity: 0.5; pointer-events: none;">
+                    <span class="link-icon">🎵</span>
+                    <span>TikTok - <span class="glitch-text" data-text="Em breve"></span></span>
+                </a>
+
+                <a href="#" target="_blank" class="link-btn" style="opacity: 0.5; pointer-events: none;">
+                    <span class="link-icon">▶️</span>
+                    <span>YouTube - <span class="glitch-text" data-text="Em breve"></span></span>
+                </a>
+            </div>
+
+            <div class="footer">
+                <p>[ SYSTEM v1.0 ] - 2024</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Efeito Matrix no fundo
+        const canvas = document.getElementById('matrix-bg');
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const letters = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン';
+        const fontSize = 14;
+        const columns = canvas.width / fontSize;
+        const drops = Array(Math.floor(columns)).fill(1);
+
+        function drawMatrix() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            ctx.fillStyle = '#00ff00';
+            ctx.font = fontSize + 'px monospace';
+
+            for (let i = 0; i < drops.length; i++) {
+                const text = letters[Math.floor(Math.random() * letters.length)];
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            }
+        }
+
+        setInterval(drawMatrix, 50);
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        // Efeito de texto glitch aleatório
+        const glitchTexts = document.querySelectorAll('.glitch-text');
+        
+        function generateRandomText(length) {
+            const chars = 'abcdefghijklmnopqrstuvwxyz0123456789!@#$%&*';
+            let result = '';
+            for (let i = 0; i < length; i++) {
+                result += chars[Math.floor(Math.random() * chars.length)];
+            }
+            return result;
+        }
+
+        glitchTexts.forEach(el => {
+            setInterval(() => {
+                const randomLength = Math.floor(Math.random() * 5) + 6; // 6-10 caracteres
+                const randomText = generateRandomText(randomLength);
+                el.textContent = randomText;
+                
+                // Efeito de glitch rápido
+                setTimeout(() => {
+                    el.style.transform = 'translateX(-2px)';
+                }, 50);
+                setTimeout(() => {
+                    el.style.transform = 'translateX(2px)';
+                }, 100);
+                setTimeout(() => {
+                    el.style.transform = 'translateX(0)';
+                }, 150);
+            }, 150); // Muda mais rápido agora
+        });
+    </script>
+</body>
+</html>
