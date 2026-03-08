@@ -1,321 +1,381 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>v1nny_zx | Links</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+import { useEffect, useRef, useState } from "react";
+
+const LINKS = [
+  {
+    id: "discord",
+    label: "Discord",
+    url: "https://discord.com/users/1033402422376271972",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
+        <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057c.002.022.015.043.033.055a19.997 19.997 0 0 0 5.993 2.98.078.078 0 0 0 .084-.026c.462-.62.874-1.275 1.226-1.963a.075.075 0 0 0-.041-.104 13.201 13.201 0 0 1-1.872-.878.075.075 0 0 1-.008-.125c.126-.093.252-.19.372-.287a.075.075 0 0 1 .078-.01c3.927 1.764 8.18 1.764 12.061 0a.075.075 0 0 1 .079.009c.12.098.245.195.372.288a.075.075 0 0 1-.006.125c-.598.344-1.22.635-1.873.877a.075.075 0 0 0-.041.105c.36.687.772 1.341 1.225 1.962a.077.077 0 0 0 .084.028 19.963 19.963 0 0 0 6.002-2.981.076.076 0 0 0 .032-.054c.5-5.094-.838-9.52-3.549-13.442a.06.06 0 0 0-.031-.028z"/>
+      </svg>
+    ),
+    color: "#5865F2",
+    bg: "rgba(88,101,242,0.15)",
+    border: "rgba(88,101,242,0.4)",
+  },
+  {
+    id: "instagram",
+    label: "Instagram",
+    url: "https://instagram.com/v1nny_zx/",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
+        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/>
+      </svg>
+    ),
+    color: "#E1306C",
+    bg: "rgba(225,48,108,0.15)",
+    border: "rgba(225,48,108,0.4)",
+  },
+  {
+    id: "spotify",
+    label: "Spotify Playlist",
+    url: "https://open.spotify.com/playlist/26F3nhE8kV3BL3IIVWAeXh?si=d341151df4684d8b",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
+        <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/>
+      </svg>
+    ),
+    color: "#1DB954",
+    bg: "rgba(29,185,84,0.15)",
+    border: "rgba(29,185,84,0.4)",
+  },
+  {
+    id: "tiktok",
+    label: "TikTok",
+    url: "https://tiktok.com/@v1nny_zx",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
+        <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.19 8.19 0 0 0 4.78 1.52V6.78a4.85 4.85 0 0 1-1.02-.09z"/>
+      </svg>
+    ),
+    color: "#ff0050",
+    bg: "rgba(255,0,80,0.15)",
+    border: "rgba(255,0,80,0.4)",
+  },
+];
+
+const PARTICLES = Array.from({ length: 40 }, (_, i) => ({
+  id: i,
+  x: Math.random() * 100,
+  y: Math.random() * 100,
+  size: Math.random() * 3 + 1,
+  duration: Math.random() * 10 + 8,
+  delay: Math.random() * 5,
+  opacity: Math.random() * 0.5 + 0.1,
+}));
+
+export default function App() {
+  const [hoveredLink, setHoveredLink] = useState<string | null>(null);
+  const [clicked, setClicked] = useState<string | null>(null);
+  const [audioPlaying, setAudioPlaying] = useState(false);
+  const [showEffect, setShowEffect] = useState<"particles" | "snow" | "neon" | "matrix">("particles");
+  const [glitch, setGlitch] = useState(false);
+
+  const audioRef = useRef<HTMLAudioElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  // Glitch effect on name
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setGlitch(true);
+      setTimeout(() => setGlitch(false), 200);
+    }, 4000);
+    return () => clearInterval(interval);
+  }, []);
+
+  // URL aleatória mudando na barra do navegador
+  useEffect(() => {
+    const chars = "abcdefghijklmnopqrstuvwxyz0123456789_-";
+    const originalPath = "/v1nny_zx";
+    let isScrambling = false;
+
+    const randomStr = (len: number) =>
+      Array.from({ length: len }, () => chars[Math.floor(Math.random() * chars.length)]).join("");
+
+    const scrambleURL = () => {
+      if (isScrambling) return;
+      isScrambling = true;
+      let count = 0;
+      const maxFrames = 12;
+        const interval = setInterval(() => {
+        const scrambled = "/" + randomStr(Math.floor(Math.random() * 8) + 4);
+        history.replaceState(null, "", scrambled);
+        count++;
+        if (count >= maxFrames) {
+          clearInterval(interval);
+          setTimeout(() => {
+            history.replaceState(null, "", originalPath);
+            isScrambling = false;
+          }, 300);
         }
+      }, 60);
+    };
 
-        body {
-            font-family: 'Courier New', monospace;
-            background: #0a0a0a;
-            color: #00ff00;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-            overflow: hidden;
-            position: relative;
-        }
+    // Roda o efeito a cada 3 segundos
+    const loop = setInterval(scrambleURL, 3000);
+    // Roda imediatamente na primeira vez
+    setTimeout(scrambleURL, 500);
 
-        /* Efeito Matrix de fundo */
-        #matrix-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            opacity: 0.1;
-            z-index: 0;
-        }
+    return () => clearInterval(loop);
+  }, []);
 
-        .container {
-            max-width: 500px;
-            width: 100%;
-            position: relative;
-            z-index: 1;
-        }
+  // Matrix effect
+  useEffect(() => {
+    if (showEffect !== "matrix") return;
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    const cols = Math.floor(canvas.width / 16);
+    const drops = Array(cols).fill(1);
+    const interval = setInterval(() => {
+      ctx.fillStyle = "rgba(0,0,0,0.05)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = "#0f0";
+      ctx.font = "14px monospace";
+      drops.forEach((y, i) => {
+        const char = String.fromCharCode(0x30A0 + Math.random() * 96);
+        ctx.fillText(char, i * 16, y * 16);
+        if (y * 16 > canvas.height && Math.random() > 0.975) drops[i] = 0;
+        drops[i]++;
+      });
+    }, 50);
+    return () => clearInterval(interval);
+  }, [showEffect]);
 
-        .terminal-window {
-            background: rgba(0, 0, 0, 0.85);
-            border: 2px solid #00ff00;
-            border-radius: 8px;
-            box-shadow: 0 0 30px rgba(0, 255, 0, 0.3);
-            padding: 20px;
-            backdrop-filter: blur(10px);
-        }
+  const handleLinkClick = (id: string, url: string) => {
+    setClicked(id);
+    setTimeout(() => setClicked(null), 600);
+    window.open(url, "_blank");
+  };
 
-        .terminal-header {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid #00ff00;
-        }
+  const toggleAudio = () => {
+    if (!audioRef.current) return;
+    if (audioPlaying) {
+      audioRef.current.pause();
+    } else {
+      audioRef.current.play().catch(() => {});
+    }
+    setAudioPlaying(!audioPlaying);
+  };
 
-        .terminal-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: #ff5555;
-        }
+  return (
+    <div className="relative min-h-screen overflow-hidden flex items-center justify-center"
+      style={{ fontFamily: "'Inter', sans-serif", background: "#000" }}>
 
-        .terminal-dot:nth-child(2) {
-            background: #ffff55;
-        }
+      {/* VIDEO BG */}
+      <video
+        ref={videoRef}
+        autoPlay loop muted playsInline
+        className="absolute inset-0 w-full h-full object-cover opacity-40"
+        style={{ zIndex: 0 }}
+      >
+        <source src="https://assets.mixkit.co/videos/preview/mixkit-stars-in-space-1610-large.mp4" type="video/mp4" />
+        <source src="https://assets.mixkit.co/videos/preview/mixkit-aerial-view-of-a-city-at-night-11-large.mp4" type="video/mp4" />
+      </video>
 
-        .terminal-dot:nth-child(3) {
-            background: #00ff00;
-        }
+      {/* AUDIO */}
+      <audio ref={audioRef} loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mp3" />
+      </audio>
 
-        .username {
-            text-align: center;
-            margin-bottom: 10px;
-        }
+      {/* OVERLAY GRADIENT */}
+      <div className="absolute inset-0" style={{
+        background: "linear-gradient(180deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.7) 100%)",
+        zIndex: 1
+      }} />
 
-        .username h1 {
-            font-size: 28px;
-            color: #00ff00;
-            text-shadow: 0 0 10px #00ff00;
-            animation: glitch 3s infinite;
-        }
+      {/* MATRIX CANVAS */}
+      {showEffect === "matrix" && (
+        <canvas ref={canvasRef} className="absolute inset-0 opacity-20" style={{ zIndex: 2 }} />
+      )}
 
-        .username p {
-            color: #00ff00;
-            opacity: 0.7;
-            font-size: 14px;
-            margin-top: 5px;
-        }
-
-        @keyframes glitch {
-            0%, 90%, 100% {
-                transform: translate(0);
-            }
-            92% {
-                transform: translate(-2px, 2px);
-            }
-            94% {
-                transform: translate(2px, -2px);
-            }
-            96% {
-                transform: translate(-2px, -2px);
-            }
-        }
-
-        .typing {
-            color: #00ff00;
-            font-size: 14px;
-            margin-bottom: 20px;
-            opacity: 0.8;
-        }
-
-        .typing::after {
-            content: '_';
-            animation: blink 1s infinite;
-        }
-
-        @keyframes blink {
-            0%, 50% { opacity: 1; }
-            51%, 100% { opacity: 0; }
-        }
-
-        .links {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .link-btn {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            padding: 18px 25px;
-            background: rgba(0, 0, 0, 0.5);
-            border: 2px solid #00ff00;
-            border-radius: 6px;
-            text-decoration: none;
-            color: #00ff00;
-            font-size: 16px;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .link-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(0, 255, 0, 0.2), transparent);
-            transition: left 0.5s;
-        }
-
-        .link-btn:hover::before {
-            left: 100%;
-        }
-
-        .link-btn:hover {
-            background: rgba(0, 255, 0, 0.1);
-            box-shadow: 0 0 20px rgba(0, 255, 0, 0.5);
-            transform: translateX(5px);
-        }
-
-        .link-icon {
-            font-size: 24px;
-        }
-
-        .footer {
-            text-align: center;
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid #00ff00;
-            opacity: 0.5;
-            font-size: 12px;
-        }
-
-        /* Efeito de scan */
-        .scan-line {
-            position: absolute;
-            width: 100%;
-            height: 2px;
-            background: rgba(0, 255, 0, 0.3);
-            animation: scan 4s linear infinite;
-        }
-
-        @keyframes scan {
-            0% { top: 0; }
-            100% { top: 100%; }
-        }
-    </style>
-</head>
-<body>
-    <canvas id="matrix-bg"></canvas>
-    
-    <div class="container">
-        <div class="terminal-window">
-            <div class="scan-line"></div>
-            
-            <div class="terminal-header">
-                <div class="terminal-dot"></div>
-                <div class="terminal-dot"></div>
-                <div class="terminal-dot"></div>
-            </div>
-
-            <div class="username">
-                <h1>&gt; v1nny_zx</h1>
-                <p>[ ACCESS GRANTED ]</p>
-            </div>
-
-            <div class="typing">
-                $ loading social links...
-            </div>
-
-            <div class="links">
-                <a href="https://instagram.com/v1nny_zx" target="_blank" class="link-btn">
-                    <span class="link-icon">📸</span>
-                    <span>Instagram</span>
-                </a>
-
-                <a href="#" target="_blank" class="link-btn" style="opacity: 0.5; pointer-events: none;">
-                    <span class="link-icon">🎮</span>
-                    <span>Discord - <span class="glitch-text" data-text="Em breve"></span></span>
-                </a>
-
-                <a href="#" target="_blank" class="link-btn" style="opacity: 0.5; pointer-events: none;">
-                    <span class="link-icon">🎵</span>
-                    <span>TikTok - <span class="glitch-text" data-text="Em breve"></span></span>
-                </a>
-
-                <a href="#" target="_blank" class="link-btn" style="opacity: 0.5; pointer-events: none;">
-                    <span class="link-icon">▶️</span>
-                    <span>YouTube - <span class="glitch-text" data-text="Em breve"></span></span>
-                </a>
-            </div>
-
-            <div class="footer">
-                <p>[ SYSTEM v1.0 ] - 2024</p>
-            </div>
+      {/* PARTICLES */}
+      {showEffect === "particles" && (
+        <div className="absolute inset-0 overflow-hidden" style={{ zIndex: 2 }}>
+          {PARTICLES.map(p => (
+            <div key={p.id} className="absolute rounded-full"
+              style={{
+                left: `${p.x}%`, top: `${p.y}%`,
+                width: `${p.size}px`, height: `${p.size}px`,
+                background: "#a78bfa",
+                opacity: p.opacity,
+                animation: `float ${p.duration}s ease-in-out ${p.delay}s infinite alternate`,
+                boxShadow: `0 0 ${p.size * 2}px #a78bfa`,
+              }} />
+          ))}
         </div>
+      )}
+
+      {/* SNOW */}
+      {showEffect === "snow" && (
+        <div className="absolute inset-0 overflow-hidden" style={{ zIndex: 2 }}>
+          {PARTICLES.map(p => (
+            <div key={p.id} className="absolute rounded-full bg-white"
+              style={{
+                left: `${p.x}%`,
+                top: "-10px",
+                width: `${p.size + 1}px`,
+                height: `${p.size + 1}px`,
+                opacity: p.opacity + 0.2,
+                animation: `snowfall ${p.duration}s linear ${p.delay}s infinite`,
+              }} />
+          ))}
+        </div>
+      )}
+
+      {/* NEON LINES */}
+      {showEffect === "neon" && (
+        <div className="absolute inset-0 overflow-hidden" style={{ zIndex: 2 }}>
+          {Array.from({ length: 8 }).map((_, i) => (
+            <div key={i} className="absolute"
+              style={{
+                left: `${i * 14}%`,
+                top: 0, bottom: 0,
+                width: "1px",
+                background: `linear-gradient(180deg, transparent, ${["#a78bfa","#f472b6","#38bdf8","#34d399"][i%4]}, transparent)`,
+                opacity: 0.3,
+                animation: `neonPulse ${2 + i * 0.5}s ease-in-out infinite alternate`,
+              }} />
+          ))}
+        </div>
+      )}
+
+      {/* MAIN CARD */}
+      <div className="relative z-10 flex flex-col items-center w-full max-w-sm px-4 py-8">
+
+        {/* AVATAR */}
+        <div className="relative mb-4">
+          <div className="w-24 h-24 rounded-full flex items-center justify-center text-4xl font-black"
+            style={{
+              background: "linear-gradient(135deg, #7c3aed, #a78bfa, #f472b6)",
+              boxShadow: "0 0 30px rgba(167,139,250,0.6), 0 0 60px rgba(167,139,250,0.3)",
+              animation: "avatarPulse 3s ease-in-out infinite",
+            }}>
+            V
+          </div>
+          {/* Online dot */}
+          <div className="absolute bottom-1 right-1 w-5 h-5 rounded-full border-2 border-black"
+            style={{ background: "#22c55e", boxShadow: "0 0 8px #22c55e" }} />
+        </div>
+
+        {/* NAME */}
+        <h1 className="text-3xl font-black text-white mb-1 tracking-wider"
+          style={{
+            textShadow: glitch
+              ? "2px 0 #f472b6, -2px 0 #38bdf8"
+              : "0 0 20px rgba(167,139,250,0.8)",
+            animation: "none",
+            letterSpacing: "0.1em",
+            transition: "text-shadow 0.1s",
+          }}>
+          v1nny_zx
+        </h1>
+
+
+
+        {/* BIO */}
+        <p className="text-sm mb-1 font-medium" style={{ color: "#a78bfa" }}>
+          🏙️ SP | Cotia
+        </p>
+        <div className="flex items-center gap-1 mb-6">
+          <div className="w-2 h-2 rounded-full" style={{ background: "#22c55e", boxShadow: "0 0 6px #22c55e" }} />
+          <span className="text-xs" style={{ color: "#6b7280" }}>online</span>
+        </div>
+
+        {/* LINKS */}
+        <div className="w-full flex flex-col gap-3 mb-6">
+          {LINKS.map(link => (
+            <button key={link.id}
+              onClick={() => handleLinkClick(link.id, link.url)}
+              onMouseEnter={() => setHoveredLink(link.id)}
+              onMouseLeave={() => setHoveredLink(null)}
+              className="w-full flex items-center gap-3 px-5 py-3 rounded-2xl font-semibold text-sm transition-all duration-200"
+              style={{
+                background: hoveredLink === link.id || clicked === link.id ? link.bg : "rgba(255,255,255,0.05)",
+                border: `1px solid ${hoveredLink === link.id || clicked === link.id ? link.border : "rgba(255,255,255,0.1)"}`,
+                color: hoveredLink === link.id || clicked === link.id ? link.color : "#e5e7eb",
+                transform: hoveredLink === link.id ? "translateY(-2px) scale(1.02)" : clicked === link.id ? "scale(0.97)" : "none",
+                boxShadow: hoveredLink === link.id ? `0 8px 25px ${link.bg}` : "none",
+                backdropFilter: "blur(10px)",
+              }}>
+              <span style={{ color: hoveredLink === link.id ? link.color : "#9ca3af" }}>
+                {link.icon}
+              </span>
+              <span className="flex-1 text-left">{link.label}</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-4 h-4 opacity-40">
+                <path d="M7 17L17 7M17 7H7M17 7v10" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </button>
+          ))}
+        </div>
+
+        {/* CONTROLS */}
+        <div className="flex items-center gap-2 mb-4 flex-wrap justify-center">
+          {/* Audio Toggle */}
+          <button onClick={toggleAudio}
+            className="flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-medium transition-all duration-200"
+            style={{
+              background: audioPlaying ? "rgba(167,139,250,0.2)" : "rgba(255,255,255,0.05)",
+              border: `1px solid ${audioPlaying ? "rgba(167,139,250,0.4)" : "rgba(255,255,255,0.1)"}`,
+              color: audioPlaying ? "#a78bfa" : "#6b7280",
+            }}>
+            {audioPlaying ? (
+              <svg viewBox="0 0 24 24" fill="currentColor" className="w-3 h-3">
+                <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+              </svg>
+            ) : (
+              <svg viewBox="0 0 24 24" fill="currentColor" className="w-3 h-3">
+                <path d="M8 5v14l11-7z"/>
+              </svg>
+            )}
+            {audioPlaying ? "Pausar" : "Música"}
+          </button>
+
+          {/* Effect Selector */}
+          {(["particles", "snow", "neon", "matrix"] as const).map(effect => (
+            <button key={effect}
+              onClick={() => setShowEffect(effect)}
+              className="px-3 py-2 rounded-xl text-xs font-medium transition-all duration-200"
+              style={{
+                background: showEffect === effect ? "rgba(167,139,250,0.2)" : "rgba(255,255,255,0.05)",
+                border: `1px solid ${showEffect === effect ? "rgba(167,139,250,0.4)" : "rgba(255,255,255,0.1)"}`,
+                color: showEffect === effect ? "#a78bfa" : "#6b7280",
+              }}>
+              {effect === "particles" ? "✨" : effect === "snow" ? "❄️" : effect === "neon" ? "🌈" : "💻"}
+            </button>
+          ))}
+        </div>
+
+        {/* FOOTER */}
+        <p className="text-xs" style={{ color: "#374151" }}>
+          v1nny_zx © 2025
+        </p>
+      </div>
+
+      <style>{`
+        @keyframes float {
+          0% { transform: translateY(0px) translateX(0px); }
+          100% { transform: translateY(-30px) translateX(10px); }
+        }
+        @keyframes snowfall {
+          0% { transform: translateY(-10px) rotate(0deg); opacity: 1; }
+          100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+        }
+        @keyframes neonPulse {
+          0% { opacity: 0.1; }
+          100% { opacity: 0.5; }
+        }
+        @keyframes avatarPulse {
+          0%, 100% { box-shadow: 0 0 30px rgba(167,139,250,0.6), 0 0 60px rgba(167,139,250,0.3); }
+          50% { box-shadow: 0 0 50px rgba(167,139,250,0.9), 0 0 100px rgba(167,139,250,0.5); }
+        }
+      `}</style>
     </div>
-
-    <script>
-        // Efeito Matrix no fundo
-        const canvas = document.getElementById('matrix-bg');
-        const ctx = canvas.getContext('2d');
-
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-
-        const letters = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン';
-        const fontSize = 14;
-        const columns = canvas.width / fontSize;
-        const drops = Array(Math.floor(columns)).fill(1);
-
-        function drawMatrix() {
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            
-            ctx.fillStyle = '#00ff00';
-            ctx.font = fontSize + 'px monospace';
-
-            for (let i = 0; i < drops.length; i++) {
-                const text = letters[Math.floor(Math.random() * letters.length)];
-                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-
-                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-                    drops[i] = 0;
-                }
-                drops[i]++;
-            }
-        }
-
-        setInterval(drawMatrix, 50);
-
-        window.addEventListener('resize', () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        });
-
-        // Efeito de texto glitch aleatório
-        const glitchTexts = document.querySelectorAll('.glitch-text');
-        
-        function generateRandomText(length) {
-            const chars = 'abcdefghijklmnopqrstuvwxyz0123456789!@#$%&*';
-            let result = '';
-            for (let i = 0; i < length; i++) {
-                result += chars[Math.floor(Math.random() * chars.length)];
-            }
-            return result;
-        }
-
-        glitchTexts.forEach(el => {
-            setInterval(() => {
-                const randomLength = Math.floor(Math.random() * 5) + 6; // 6-10 caracteres
-                const randomText = generateRandomText(randomLength);
-                el.textContent = randomText;
-                
-                // Efeito de glitch rápido
-                setTimeout(() => {
-                    el.style.transform = 'translateX(-2px)';
-                }, 50);
-                setTimeout(() => {
-                    el.style.transform = 'translateX(2px)';
-                }, 100);
-                setTimeout(() => {
-                    el.style.transform = 'translateX(0)';
-                }, 150);
-            }, 150); // Muda mais rápido agora
-        });
-    </script>
-</body>
-</html>
+  );
+}
+          
